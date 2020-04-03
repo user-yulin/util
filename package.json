@@ -1,21 +1,21 @@
 {
-  "name": "helper",
+  "name": "tooljs",
   "version": "0.0.1",
-  "description": "js工具",
+  "description": "weChat h5 js工具",
   "main": "main.js",
   "scripts": {
     "build": "rimraf dist && rollup -c"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yulindev/helper.git"
+    "url": "git+https://github.com/yulindev/tooljs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yulindev/helper/issues"
+    "url": "https://github.com/yulindev/tooljs/issues"
   },
-  "homepage": "https://github.com/yulindev/helper#readme",
+  "homepage": "https://github.com/yulindev/tooljs#readme",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * 返回URL参数对象
  */
@@ -133,7 +131,7 @@ var mobileInit = function mobileInit() {
     }
   };
 };
-var platform = {
+var compat = {
   isAndroid: isAndroid,
   isIOS: isIOS,
   isWeiXin: isWeiXin,
@@ -142,7 +140,7 @@ var platform = {
 
 var main = {
   url: url,
-  platform: platform
+  compat: compat
 };
 
-module.exports = main;
+export default main;

@@ -1,7 +1,7 @@
 import url from "./url"
-import platform from "./platform"
+import compat from "./compat"
 
 export default {
     url,
-    platform
+    compat
 }

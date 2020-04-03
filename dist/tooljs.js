@@ -1,7 +1,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, global.helperjs = factory());
+    (global = global || self, global.tooljs = factory());
 }(this, (function () { 'use strict';
 
     /**
@@ -137,7 +137,7 @@
         }
       };
     };
-    var platform = {
+    var compat = {
       isAndroid: isAndroid,
       isIOS: isIOS,
       isWeiXin: isWeiXin,
@@ -146,7 +146,7 @@
 
     var main = {
       url: url,
-      platform: platform
+      compat: compat
     };
 
     return main;

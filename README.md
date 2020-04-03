@@ -1,2 +1,2 @@
-# helper 
-weChat h5 tool
+# tooljs 
+weChat h5 js工具
