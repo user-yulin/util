@@ -6,17 +6,17 @@ export default {
     input: './src/main.js',
     output: [
         {
-            file: './dist/tooljs.esm.js',
+            file: './dist/tools.esm.js',
             format: 'esm',
         },
         {
-            file: './dist/tooljs.common.js',
+            file: './dist/tools.common.js',
             format: 'cjs',
         },
         {
-            file: './dist/tooljs.js',
+            file: './dist/tools.js',
             format: 'umd',
-            name: 'tooljs'
+            name: 'tools'
         },
     ],
     plugins: [
