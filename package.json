@@ -1,6 +1,6 @@
 {
   "name": "h5-utils-js",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "weChat h5 utils",
   "main": "dist/h5-utils-js.js",
   "module": "dist/h5-utils-js.esm.js",
@@ -9,14 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yulindev/h5-utils-js.git"
+    "url": ""
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/yulindev/h5-utils-js/issues"
-  },
-  "homepage": "https://github.com/yulindev/h5-utils-js#readme",
+  "homepage": "",
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
