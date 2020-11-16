@@ -1,6 +1,6 @@
 {
   "name": "h5-utils-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "weChat h5 utils",
   "main": "dist/h5-utils-js.js",
   "module": "dist/h5-utils-js.esm.js",
