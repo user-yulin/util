@@ -1,5 +1,5 @@
 {
-  "name": "tools",
+  "name": "h5-tools",
   "version": "0.0.1",
   "description": "weChat h5 js工具",
   "main": "main.js",

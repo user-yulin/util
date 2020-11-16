@@ -49,6 +49,53 @@ var url = {
   getUrl: getUrl
 };
 
+var _storage = window.localStorage;
+
+var cache = function cache() {};
+
+cache.prototype.setItem = function (k, v, t) {
+  var seconds = parseInt(t);
+  var expire = 0;
+
+  if (seconds > 0) {
+    expire = new Date().getTime() + seconds * 1000;
+  }
+
+  _storage.setItem(k, JSON.stringify({
+    value: v,
+    expire: expire
+  }));
+};
+
+cache.prototype.getItem = function (k, _default) {
+  if (_default === void 0) _default = null;
+  var time = new Date().getTime();
+
+  var valueItem = _storage.getItem(k);
+
+  if (!valueItem) {
+    return _default;
+  }
+
+  var ref = JSON.parse(valueItem);
+  var value = ref.value;
+  var expire = ref.expire;
+
+  if (expire === 0 || expire > time) {
+    return value || _default;
+  }
+
+  _storage.removeItem(k);
+
+  return _default;
+};
+
+cache.prototype.removeItem = function (k) {
+  _storage.removeItem(k);
+};
+
+var cache$1 = new cache();
+
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -142,6 +189,7 @@ var compat = {
 
 var main = {
   url: url,
+  cache: cache$1,
   compat: compat
 };
 
