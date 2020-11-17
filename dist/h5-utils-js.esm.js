@@ -1,98 +1,145 @@
-/**
- * 返回URL参数对象
- */
-var getParams = function getParams(key) {
-  var arr = (location.search || "").replace(/^\?/, '').split("&");
-  var params = {};
-  var data = [];
-
-  for (var i = 0; i < arr.length; i++) {
-    data = arr[i].split("=");
-
-    if (data.length === 2) {
-      params[data[0]] = data[1];
-    }
-  }
-
-  return key ? params[key] : params;
-};
-/**
- * 获取hash(取消#)
- */
-
-var getHash = function getHash() {
-  return (location.search || "").replace("#", '');
-};
-/**
- * 获取URL
- * @param {*} params 
- */
-
-var getUrl = function getUrl(params) {
-  if (params === void 0) params = {};
-  var query = '';
-  Object.keys(params).forEach(function (key) {
-    query += key + '=' + params[key] + '&';
-  });
-
-  if (query.length > 0) {
-    query = '?' + query.substr(0, query.length - 1);
-  }
-
-  return location.href.replace(location.search, '').replace(location.hash, '') + query;
-};
 var url = {
-  getParams: getParams,
-  getHash: getHash,
-  getUrl: getUrl
+  /**
+   * 获取URL
+   * @param {} params 
+   */
+  getUrl: function getUrl(params) {
+    if (params === void 0) params = {};
+    var query = '';
+    Object.keys(params).forEach(function (key) {
+      query += key + '=' + params[key] + '&';
+    });
+
+    if (query.length > 0) {
+      query = '?' + query.substr(0, query.length - 1);
+    }
+
+    return location.href.replace(location.search, '').replace(location.hash, '') + query;
+  },
+
+  /**
+   * 获取hash(取消#)
+   */
+  getHash: function getHash() {
+    return (location.search || "").replace("#", '');
+  },
+
+  /**
+   * 获取URL参数对象
+   */
+  getParams: function getParams(key) {
+    var arr = (location.search || "").replace(/^\?/, '').split("&");
+    var params = {};
+    var data = [];
+
+    for (var i = 0; i < arr.length; i++) {
+      data = arr[i].split("=");
+
+      if (data.length === 2) {
+        params[data[0]] = data[1];
+      }
+    }
+
+    return key ? params[key] : params;
+  }
+};
+
+var date = {
+  getTime: function getTime(date) {
+    if (date === void 0) date = new Date();
+    return new Date(date).getTime();
+  },
+  format: function format(date, formatStr) {
+    if (date === void 0) date = new Date();
+    if (formatStr === void 0) formatStr = "YYYY-MM-DD";
+    var $date = new Date(date);
+    var $Y = $date.getFullYear();
+    var $M = $date.getMonth();
+    var $D = $date.getDate();
+    var $W = $date.getDay();
+    var $H = $date.getHours();
+    var $m = $date.getMinutes();
+    var $s = $date.getSeconds();
+    var $ms = $date.getMilliseconds();
+
+    function padStart(string, length, pad) {
+      var s = String(string);
+
+      if (!s || s.length >= length) {
+        return string;
+      }
+
+      return "" + Array(length + 1 - s.length).join(pad) + string;
+    }
+
+    function get$H(num) {
+      return padStart($H % 12 || 12, num, '0');
+    }
+    var matches = {
+      YY: String($Y).slice(-2),
+      YYYY: $Y,
+      M: $M + 1,
+      MM: padStart($M + 1, 2, '0'),
+      D: $D,
+      DD: padStart($D, 2, '0'),
+      H: String($H),
+      HH: padStart($H, 2, '0'),
+      h: get$H(1),
+      hh: get$H(2),
+      m: String($m),
+      mm: padStart($m, 2, '0'),
+      s: String($s),
+      ss: padStart($s, 2, '0'),
+      SSS: padStart($ms, 3, '0')
+    };
+    var REGEX_FORMAT = /\[([^\]]+)]|Y{2,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g;
+    return formatStr.replace(REGEX_FORMAT, function (match, $1) {
+      return $1 || matches[match];
+    });
+  }
 };
 
 var _storage = window.localStorage;
+var cache = {
+  setItem: function setItem(k, v, t) {
+    var seconds = parseInt(t);
+    var expire = 0;
 
-var cache = function cache() {};
+    if (seconds > 0) {
+      expire = new Date().getTime() + seconds * 1000;
+    }
 
-cache.prototype.setItem = function (k, v, t) {
-  var seconds = parseInt(t);
-  var expire = 0;
+    _storage.setItem(k, JSON.stringify({
+      value: v,
+      expire: expire
+    }));
+  },
+  getItem: function getItem(k, _default) {
+    if (_default === void 0) _default = null;
+    var time = new Date().getTime();
 
-  if (seconds > 0) {
-    expire = new Date().getTime() + seconds * 1000;
-  }
+    var valueItem = _storage.getItem(k);
 
-  _storage.setItem(k, JSON.stringify({
-    value: v,
-    expire: expire
-  }));
-};
+    if (!valueItem) {
+      return _default;
+    }
 
-cache.prototype.getItem = function (k, _default) {
-  if (_default === void 0) _default = null;
-  var time = new Date().getTime();
+    var ref = JSON.parse(valueItem);
+    var value = ref.value;
+    var expire = ref.expire;
 
-  var valueItem = _storage.getItem(k);
+    if (expire === 0 || expire > time) {
+      return value || _default;
+    }
 
-  if (!valueItem) {
+    _storage.removeItem(k);
+
     return _default;
+  },
+  removeItem: function removeItem(k) {
+    _storage.removeItem(k);
   }
-
-  var ref = JSON.parse(valueItem);
-  var value = ref.value;
-  var expire = ref.expire;
-
-  if (expire === 0 || expire > time) {
-    return value || _default;
-  }
-
-  _storage.removeItem(k);
-
-  return _default;
 };
-
-cache.prototype.removeItem = function (k) {
-  _storage.removeItem(k);
-};
-
-var cache$1 = new cache();
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -111,20 +158,24 @@ function _typeof(obj) {
 }
 
 var u = navigator.userAgent;
-var isAndroid = function isAndroid() {
+
+function isAndroid() {
   return u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
-};
-var isIOS = function isIOS() {
+}
+
+function isIOS() {
   return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-};
-var isWeiXin = function isWeiXin() {
+}
+
+function isWeiXin() {
   return u.indexOf('MicroMessenger') > -1;
-};
+}
 /**
  * 移动端初始化
  */
 
-var mobileInit = function mobileInit() {
+
+function mobileInit() {
   function handleFontSize() {
     // 设置网页字体为默认大小
     WeixinJSBridge.invoke('setFontSizeCallback', {
@@ -177,7 +228,8 @@ var mobileInit = function mobileInit() {
       window.document.body.style.height = bodyHeight + 'px';
     }
   };
-};
+}
+
 var compat = {
   isAndroid: isAndroid,
   isIOS: isIOS,
@@ -187,7 +239,8 @@ var compat = {
 
 var main = {
   url: url,
-  cache: cache$1,
+  date: date,
+  cache: cache,
   compat: compat
 };
 

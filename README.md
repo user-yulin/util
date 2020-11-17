@@ -1,7 +1,8 @@
 ### weChat h5 utils
 
 ```javascript
-    import { url, cache, compat } from "h5-utils-js";
+
+    import { url, date, cache, compat } from "h5-utils-js";
 
     //URL
     url.getUrl() "or" url.getUrl({key:"value"});
@@ -12,6 +13,12 @@
     //URL参数对象
     url.getParams();
     
+    //getTime
+    date.getTime("date");
+
+    //format
+    date.format("date","YYYY-MM-DD HH:mm:ss:SSS");
+
     //set localStorage
     cache.setItem("key","value","time");
     
@@ -32,4 +39,5 @@
 
     //weChat init
     compat.mobileInit();
+
 ```

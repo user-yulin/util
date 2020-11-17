@@ -1,21 +1,21 @@
 const u = navigator.userAgent;
 
-export const isAndroid = function () {
+function isAndroid() {
     return u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
 }
 
-export const isIOS = function () {
+function isIOS() {
     return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
 }
 
-export const isWeiXin = function () {
+function isWeiXin() {
     return u.indexOf('MicroMessenger') > -1;
 }
 
 /**
  * 移动端初始化
  */
-export const mobileInit = function () {
+function mobileInit() {
     function handleFontSize() {
         // 设置网页字体为默认大小
         WeixinJSBridge.invoke('setFontSizeCallback', {'fontSize': 0});

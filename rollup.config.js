@@ -2,6 +2,12 @@
 import  buble from 'rollup-plugin-buble';
 import  babel from 'rollup-plugin-babel';
 import  packageJson from './package.json';
+/** 
+ * 下划线中划线转驼峰
+*/
+function toCamel(str){
+    return String(str).replace(/[-,_](\w)/g, function($0, $1){ return $1.toUpperCase(); });
+}
 
 export default {
     input: './src/main.js',
@@ -17,7 +23,7 @@ export default {
         {
             file: `./dist/${packageJson.name}.js`,
             format: 'umd',
-            name: packageJson.name
+            name: toCamel(packageJson.name)
         },
     ],
     plugins: [
