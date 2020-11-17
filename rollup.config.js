@@ -6,7 +6,7 @@ import  packageJson from './package.json';
  * 下划线中划线转驼峰
 */
 function toCamel(str){
-    return String(str).replace(/[-,_](\w)/g, function($0, $1){ return $1.toUpperCase(); });
+    return String(str).replace(/[-|_](\w)/g, function($0, $1){ return $1.toUpperCase(); });
 }
 
 export default {
